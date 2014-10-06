@@ -11,6 +11,7 @@
   "license": "GPLv3",
   "dependencies": {
     "body-parser": "^1.9.0",
+    "coffee-script": "^1.8.0",
     "dotenv": "^0.4.0",
     "express": "^4.9.5",
     "restify": "^2.8.2",
