@@ -1,52 +1,55 @@
 var dotenv = require('dotenv');
 dotenv.load();
-// var restify = require('restify');
-// var server = restify.createServer();
-// var io = require('socket.io').listen(server);
-// server.use(restify.bodyParser({ mapParams: false })); //parse POST stuff
 
-function openSesame(secret) {
-  console.log('checking to see if '+secret)
-   if (process.env.SECRET == secret) {
-     io.emit('event', 'OPEN');
-   } else {
-     res.send({result: 'fail'});
-   }
- };
-
-
-// io.sockets.on('connection', function (socket) {
-//     console.log('connected!')
-// });
-//
-// server.listen(process.env.PORT || 8080, function() {
-//   console.log('%s listening at %s', server.name, server.url);
-// });
-
-var app = require('express')();
+// app config and middleware
+var express = require('express');
+var app = express();
+var server = require('http').Server(app);
+app.use(express.static(__dirname + '/public'));
 var bodyParser = require('body-parser')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io')(server);
 
-app.get('/', function(req, res){
-  res.sendfile('index.html');
-});
+// ==== EXPRESS ROUTES =====
+
+// app.get('/', function(req, res){
+//   res.sendfile('index.html');
+// });
 
 app.post('/', function(req, res){
-  // console.log(req);
-  openSesame(req.body.secret);
-  res.send('O HAI');
+  if (openSesame(req.body.secret)) {
+    res.redirect('/')
+  } else {
+    res.send('oops - authentication invalid')
+  }
 });
+
+var port = process.env.PORT || 3000
+server.listen(port, function() {
+  console.log("listening on port "+port);
+});
+
+// ==== SOCKET MANAGEMENT STUFF =====
 
 io.on('connection', function(socket){
   console.log('a user connected');
+
+  socket.on('door-status', function(data){
+    console.log('door-status event recieved: '+data)
+  });
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
-});
+// ==== HELPERS =====
+
+function openSesame(secret) {
+   if (process.env.SECRET == secret) {
+     io.emit('door-command', 'toggle');
+     return true;
+   } else {
+     return false;
+   }
+ };
