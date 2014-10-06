@@ -6,7 +6,7 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 app.use(express.static(__dirname + '/public'));
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -22,13 +22,13 @@ var io = require('socket.io')(server);
 
 app.post('/', function(req, res){
   if (openSesame(req.body.secret)) {
-    res.redirect('/')
+    res.redirect('/');
   } else {
-    res.send('oops - authentication invalid')
+    res.send('oops - authentication invalid');
   }
 });
 
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 3000;
 server.listen(port, function() {
   console.log("listening on port "+port);
 });
@@ -39,7 +39,7 @@ io.on('connection', function(socket){
   console.log('a user connected');
 
   socket.on('door-status', function(data){
-    console.log('door-status event recieved: '+data)
+    console.log('door-status event recieved: '+data);
   });
 });
 
@@ -52,4 +52,4 @@ function openSesame(secret) {
    } else {
      return false;
    }
- };
+ }
