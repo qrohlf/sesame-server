@@ -31,7 +31,7 @@ io.on "connection", (socket) ->
   socket.on "door status", (data) ->
     log "[DOOR STATUS]: " + data
 
-  socket.on "log info", (data) ->
+  socket.on "log", (data) ->
     log "[LOG]: " + data
 
 # ==== helpers =====
