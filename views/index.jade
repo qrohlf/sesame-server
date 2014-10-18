@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    title Door Control
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/style.css")
+    link(rel="apple-touch-icon", sizes="120x120", href="/icon.png")
+  body
+    .container
+      .col-md-6.col-md-offset-3
+        h2.text-center Door Control!
+        .row
+          a#button.btn.btn-info.btn-block.btn-lg(type="submit", href="#") Open/Close Door
+        .row
+          .panel.panel-default
+            .panel-heading Log
+            .panel-body#log
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
+        script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
+        script(src="/socket.io/socket.io.js")
+        script(src="/main.js")

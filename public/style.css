@@ -1,0 +1,16 @@
+.row {
+  margin-top: 32px;
+}
+
+#log {
+  font-family: 'Menlo', monospace;
+}
+
+body {
+  background: url(/tweed_@2X.png);
+  background-size: 200px 200px;
+}
+
+h1, h2 {
+  color: white;
+}

@@ -9,13 +9,14 @@ app.use express.static(__dirname + "/public")
 bodyParser = require("body-parser")
 app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: true)
+app.set('views', './views')
+app.set('view engine', 'jade')
 io = require("socket.io")(server)
 
 # ==== express routes =====
 
-# app.get('/', function(req, res){
-#   res.sendfile('index.html');
-# });
+app.get '/', (req, res) ->
+  res.render('index')
 
 app.post "/", (req, res) ->
   if openSesame(req.body.secret)
@@ -25,10 +26,10 @@ app.post "/", (req, res) ->
 
 # ==== socket management stuff =====
 io.on "connection", (socket) ->
-  console.log "a user connected"
+  log "a user connected"
 
   socket.on "door-status", (data) ->
-    console.log "door-status event recieved: " + data
+    log "door-status event recieved: " + data
 
 # ==== helpers =====
 openSesame = (secret) ->
@@ -37,6 +38,10 @@ openSesame = (secret) ->
     true
   else
     false
+
+log = (msg) ->
+  console.log(msg)
+  io.emit('log message', msg)
 
 # ==== start the app ====
 port = process.env.PORT or 3000
