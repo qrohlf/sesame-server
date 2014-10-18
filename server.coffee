@@ -26,10 +26,13 @@ app.post "/", (req, res) ->
 
 # ==== socket management stuff =====
 io.on "connection", (socket) ->
-  log "a user connected"
+  log "connected!"
 
-  socket.on "door-status", (data) ->
-    log "door-status event recieved: " + data
+  socket.on "door status", (data) ->
+    log "[DOOR STATUS]: " + data
+
+  socket.on "log info", (data) ->
+    log "[LOG]: " + data
 
 # ==== helpers =====
 openSesame = (secret) ->
